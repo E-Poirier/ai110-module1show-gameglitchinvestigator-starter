@@ -7,7 +7,7 @@ Answer each question in 3 to 5 sentences. Be specific and honest about what actu
 - What did the game look like the first time you ran it?
 - List at least two concrete bugs you noticed at the start  
   (for example: "the secret number kept changing" or "the hints were backwards").
-
+When I first launched it I had problems (that shouldn't have been there to begin with), this came from an error setting up my venv, and a conflict with dependicies/packages. I figured that out then I was able to run everything properly. The first error I noticed were the Hints switching between saying higher/lower, when i continued to input the same number. Another issue regarding the hint function was with it misshadling an edge case (guess between 0-100, i input 100, it said higher). I also noticed a delay in the history, as well as needing to refresh the page to start a new game. 
 ---
 
 ## 2. How did you use AI as a teammate?
@@ -15,6 +15,8 @@ Answer each question in 3 to 5 sentences. Be specific and honest about what actu
 - Which AI tools did you use on this project (for example: ChatGPT, Gemini, Copilot)?
 - Give one example of an AI suggestion that was correct (including what the AI suggested and how you verified the result).
 - Give one example of an AI suggestion that was incorrect or misleading (including what the AI suggested and how you verified the result).
+
+I am using claude cod to help with this project. One example of it being correct (basically every example so far), is it finding the exact lines/blocks of code causing the errors, based off my description of the problem. I verified it by looking at each code section where it described the error and following it's logic to see if it was accurate.
 
 ---
 

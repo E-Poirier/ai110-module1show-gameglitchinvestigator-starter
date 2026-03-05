@@ -5,7 +5,9 @@ __pycache__/
 
 # Virtual environments
 .venv/
+.venw/
 venv/
+venw/
 env/
 ENV/
 .conda/

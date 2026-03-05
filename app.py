@@ -111,6 +111,8 @@ st.info(
     f"Attempts left: {attempt_limit - st.session_state.attempts}"
 )
 
+# FIX-ME: History panel renders before the submit block runs, so it always shows
+# the previous run's history — the latest guess appears only after the next rerun.
 with st.expander("Developer Debug Info"):
     st.write("Secret:", st.session_state.secret)
     st.write("Attempts:", st.session_state.attempts)
@@ -131,6 +133,10 @@ with col2:
 with col3:
     show_hint = st.checkbox("Show hint", value=True)
 
+# FIX-ME: New game ignores selected difficulty (always uses 1-100) and resets
+# attempts to 0 instead of 1, causing an off-by-one inconsistency.
+# FIX-ME: st.session_state.status is never reset to "playing", so the game
+# immediately hits st.stop() after rerun — secret keeps changing but game never starts.
 if new_game:
     st.session_state.attempts = 0
     st.session_state.secret = random.randint(1, 100)
@@ -155,6 +161,8 @@ if submit:
     else:
         st.session_state.history.append(guess_int)
 
+        # FIX-ME: Alternating between string and int secret causes broken hint direction
+        # and edge case failures (e.g. guessing 100 says "Go Higher") due to string comparison.
         if st.session_state.attempts % 2 == 0:
             secret = str(st.session_state.secret)
         else:
