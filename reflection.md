@@ -30,6 +30,12 @@ A missleading part from the AI (which was mostly my fault to begin with) was whe
 - Did AI help you design or understand any tests? How?
 
 I decided that the bugs were fixed based on 2 reasons: the first being that when i manually went back to the launched app and tested whether the broken functionality was still in-place or resolved, and secondly, when the test-cases created for the bug passes successfully.
+
+Used pytest to test the following (2 examples): 
+test_attempts_reset_to_1 — confirms the initial-state convention across all difficulties
+test_status_reset_to_playing — confirms the game is playable after new game.
+
+It designed the test cases, and i got it to explain it to me so I coulf better understand what it did, and why.
 ---
 
 ## 4. What did you learn about Streamlit and state?
@@ -38,6 +44,11 @@ I decided that the bugs were fixed based on 2 reasons: the first being that when
 - How would you explain Streamlit "reruns" and session state to a friend who has never used Streamlit?
 - What change did you make that finally gave the game a stable secret number?
 
+I believe the secret number kep changing because a fresh secret would be generated on "new game", but would then be immediately frozen because the game state would always be stuck on 'over'.
+
+Streamlit pages 'rerun' on every interaction with it (click a button, type in a box), which makes the entire python script run again from top to bottom.
+
+I resolved it in my bug 1 fix, specifically the missing st.session_state.status = "playing" reset.
 ---
 
 ## 5. Looking ahead: your developer habits

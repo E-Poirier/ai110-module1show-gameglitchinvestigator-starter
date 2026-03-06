@@ -158,12 +158,7 @@ if submit:
     else:
         st.session_state.history.append(guess_int)
 
-        # FIX-ME: Alternating between string and int secret causes broken hint direction
-        # and edge case failures (e.g. guessing 100 says "Go Higher") due to string comparison.
-        if st.session_state.attempts % 2 == 0:
-            secret = str(st.session_state.secret)
-        else:
-            secret = st.session_state.secret
+        secret = st.session_state.secret
 
         outcome, message = check_guess(guess_int, secret)
 

@@ -224,6 +224,50 @@ class TestCheckGuess:
         assert outcome == "Too Low"
 
 
+class TestCheckGuessNumericComparison:
+    """Bug 2 regression tests.
+
+    When secret was cast to str on even attempts, comparisons became
+    lexicographic. Classic failure cases:
+      - guess=100, secret="50"  → "1" < "5" lexicographically → "Too Low" (wrong, should be "Too High")
+      - guess=9,   secret="10" → "9" > "1" lexicographically → "Too High" (wrong, should be "Too Low")
+    The fix is to always pass secret as int. These tests call check_guess
+    with an int secret to confirm numeric semantics are preserved.
+    """
+
+    def test_100_vs_50_is_too_high(self):
+        """Regression: with str secret '50', guess 100 compared '1' < '5' → 'Too Low'."""
+        outcome, _ = check_guess(100, 50)
+        assert outcome == "Too High"
+
+    def test_9_vs_10_is_too_low(self):
+        """Regression: with str secret '10', guess 9 compared '9' > '1' → 'Too High'."""
+        outcome, _ = check_guess(9, 10)
+        assert outcome == "Too Low"
+
+    def test_2_vs_19_is_too_low(self):
+        """'2' > '1' lexicographically but 2 < 19 numerically."""
+        outcome, _ = check_guess(2, 19)
+        assert outcome == "Too Low"
+
+    def test_int_secret_win(self):
+        outcome, _ = check_guess(42, 42)
+        assert outcome == "Win"
+
+    def test_secret_as_string_breaks_comparison(self):
+        """Documents the broken behaviour that the fix prevents.
+        With a string secret '50', check_guess(100, '50') returns 'Too Low'
+        because '1' < '5' lexicographically — the opposite of correct."""
+        broken_outcome, _ = check_guess(100, "50")
+        # This assertion shows the bug: the result is wrong
+        assert broken_outcome == "Too Low"   # wrong answer from string comparison
+
+    def test_int_secret_gives_correct_direction(self):
+        """With int secret 50, check_guess(100, 50) correctly returns 'Too High'."""
+        outcome, _ = check_guess(100, 50)
+        assert outcome == "Too High"
+
+
 class TestUpdateScore:
     def test_win_adds_points(self):
         score = update_score(0, "Win", 1)
