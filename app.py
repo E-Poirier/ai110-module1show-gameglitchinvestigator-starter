@@ -35,9 +35,9 @@ def check_guess(guess, secret):
 
     try:
         if guess > secret:
-            return "Too High", "📈 Go HIGHER!"
+            return "Too High", "Go Lower!"
         else:
-            return "Too Low", "📉 Go LOWER!"
+            return "Too Low", "Go Higher!"
     except TypeError:
         g = str(guess)
         if g == secret:
