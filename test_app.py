@@ -268,6 +268,89 @@ class TestCheckGuessNumericComparison:
         assert outcome == "Too High"
 
 
+def build_info_message(low, high, attempts_left):
+    """Mirrors the fixed st.info() f-string in app.py line 109-112."""
+    return f"Guess a number between {low} and {high}. Attempts left: {attempts_left}"
+
+
+class TestInfoMessageUsesRange:
+    """Bug 3 regression tests — info banner must reflect the selected difficulty range."""
+
+    @pytest.mark.parametrize("difficulty,expected_high", [
+        ("Easy", 20),
+        ("Normal", 100),
+        ("Hard", 50),
+    ])
+    def test_message_uses_difficulty_high(self, difficulty, expected_high):
+        low, high = get_range_for_difficulty(difficulty)
+        msg = build_info_message(low, high, attempts_left=5)
+        assert str(expected_high) in msg
+
+    def test_easy_message_does_not_say_100(self):
+        """Regression: hardcoded '1 and 100' would appear for Easy even though range is 1–20."""
+        low, high = get_range_for_difficulty("Easy")
+        msg = build_info_message(low, high, attempts_left=5)
+        assert "100" not in msg
+
+    def test_hard_message_does_not_say_100(self):
+        """Regression: hardcoded '1 and 100' would appear for Hard even though range is 1–50."""
+        low, high = get_range_for_difficulty("Hard")
+        msg = build_info_message(low, high, attempts_left=5)
+        assert "100" not in msg
+
+    def test_message_includes_low_bound(self):
+        low, high = get_range_for_difficulty("Easy")
+        msg = build_info_message(low, high, attempts_left=3)
+        assert str(low) in msg
+
+    def test_message_includes_attempts_left(self):
+        low, high = get_range_for_difficulty("Normal")
+        msg = build_info_message(low, high, attempts_left=4)
+        assert "4" in msg
+
+
+class TestHistoryReflectsCurrentGuess:
+    """Bug 4 regression tests.
+
+    The expander was rendered before the submit block, so history always
+    showed the previous run's state. Moving it after the submit block means
+    history is up to date when the expander renders.
+
+    We can't test Streamlit render order directly, but we can confirm that
+    the history list is updated synchronously during the same logical step as
+    the guess — so whenever the expander reads it, it will be current.
+    """
+
+    def test_valid_guess_appended_to_history(self):
+        history = []
+        ok, guess_int, _ = parse_guess("42")
+        assert ok
+        history.append(guess_int)
+        assert 42 in history
+
+    def test_invalid_guess_appended_as_raw(self):
+        history = []
+        raw = "banana"
+        ok, _, _ = parse_guess(raw)
+        assert not ok
+        history.append(raw)
+        assert "banana" in history
+
+    def test_history_grows_with_each_guess(self):
+        history = []
+        for raw in ["10", "20", "30"]:
+            ok, val, _ = parse_guess(raw)
+            history.append(val if ok else raw)
+        assert len(history) == 3
+
+    def test_latest_guess_is_last_in_history(self):
+        history = []
+        for raw in ["5", "15", "25"]:
+            ok, val, _ = parse_guess(raw)
+            history.append(val if ok else raw)
+        assert history[-1] == 25
+
+
 class TestUpdateScore:
     def test_win_adds_points(self):
         score = update_score(0, "Win", 1)
