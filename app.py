@@ -133,13 +133,10 @@ with col2:
 with col3:
     show_hint = st.checkbox("Show hint", value=True)
 
-# FIX-ME: New game ignores selected difficulty (always uses 1-100) and resets
-# attempts to 0 instead of 1, causing an off-by-one inconsistency.
-# FIX-ME: st.session_state.status is never reset to "playing", so the game
-# immediately hits st.stop() after rerun — secret keeps changing but game never starts.
 if new_game:
-    st.session_state.attempts = 0
-    st.session_state.secret = random.randint(1, 100)
+    st.session_state.attempts = 1
+    st.session_state.status = "playing"
+    st.session_state.secret = random.randint(low, high)
     st.success("New game started.")
     st.rerun()
 

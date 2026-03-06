@@ -16,7 +16,9 @@ When I first launched it I had problems (that shouldn't have been there to begin
 - Give one example of an AI suggestion that was correct (including what the AI suggested and how you verified the result).
 - Give one example of an AI suggestion that was incorrect or misleading (including what the AI suggested and how you verified the result).
 
-I am using claude cod to help with this project. One example of it being correct (basically every example so far), is it finding the exact lines/blocks of code causing the errors, based off my description of the problem. I verified it by looking at each code section where it described the error and following it's logic to see if it was accurate.
+I am using claude cod to help with this project. One example of it being correct (basically every example so far), is it finding the exact lines/blocks of code causing the errors, based off my description of the problem. I verified it by looking at each code section where it described the error and following it's logic to see if it was accurate. 
+
+A missleading part from the AI (which was mostly my fault to begin with) was when I misspelled the initialization of the venv. I then asked if that would cause any problems and it said no.... totally caused problem when i went to commit stuff and it was in the gitignore.... so was a little missleading, but it did help me to eventually resolve the issue.
 
 ---
 
@@ -27,6 +29,7 @@ I am using claude cod to help with this project. One example of it being correct
   and what it showed you about your code.
 - Did AI help you design or understand any tests? How?
 
+I decided that the bugs were fixed based on 2 reasons: the first being that when i manually went back to the launched app and tested whether the broken functionality was still in-place or resolved, and secondly, when the test-cases created for the bug passes successfully.
 ---
 
 ## 4. What did you learn about Streamlit and state?
