@@ -57,3 +57,9 @@ I resolved it in my bug 1 fix, specifically the missing st.session_state.status 
   - This could be a testing habit, a prompting strategy, or a way you used Git.
 - What is one thing you would do differently next time you work with AI on a coding task?
 - In one or two sentences, describe how this project changed the way you think about AI generated code.
+
+I would say breaking the problem down into specific fixes and targeting them one at a time, while also implementing tests and commits regularly.
+
+I would maybe see if i could use it less, to see how far i could get on my own, then use it as a support to nudge me in the right direction if i got stuck.
+
+I'm not sure if it changed the way i think about a, but it gave me a better understanding of actually using it. It really easy to watch videos of someone coding or fixing an app, its a whole different experience doing it yourself -- so thats what i enjoyed the most from it.
