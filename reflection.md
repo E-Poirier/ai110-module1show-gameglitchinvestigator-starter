@@ -63,3 +63,5 @@ I would say breaking the problem down into specific fixes and targeting them one
 I would maybe see if i could use it less, to see how far i could get on my own, then use it as a support to nudge me in the right direction if i got stuck.
 
 I'm not sure if it changed the way i think about a, but it gave me a better understanding of actually using it. It really easy to watch videos of someone coding or fixing an app, its a whole different experience doing it yourself -- so thats what i enjoyed the most from it.
+
+Done!
